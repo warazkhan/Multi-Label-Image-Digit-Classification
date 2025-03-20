@@ -1,48 +1,69 @@
-# 🌍 Geospatial Insights and Comprehensive EDA
+# Multi-Label Image-Based Digit Classification
 
-This project performs an in-depth **Exploratory Data Analysis (EDA)** and geospatial analysis on an anonymized country-based dataset. The goal is to uncover key patterns, trends, and relationships in the data, followed by predictive modeling.
+This project aims to develop a deep learning model for **multi-label digit classification** using images containing multiple overlapping digits. The methodology involves **image preprocessing**, **feature extraction**, **CNN model training**, and **evaluation**.
 
-## 📌 Project Highlights
-- **Dataset Overview:**  
-  The dataset includes numerical, categorical, and date-time features, along with a binary target variable.
-- **Data Preprocessing:**  
-  - Handling missing values  
-  - Encoding categorical variables  
-  - Scaling numerical features  
-- **Exploratory Data Analysis (EDA):**  
-  - Distribution analysis and visualizations  
-  - Correlation heatmaps  
-  - Feature importance analysis  
-- **Geospatial Analysis:**  
-  - Mapping country-level insights  
-  - Visualizing geographic trends  
-- **Machine Learning Models:**  
-  - Logistic Regression  
-  - Decision Tree  
-  - Random Forest  
-  - Support Vector Machine (SVM)  
-  - Gaussian Naive Bayes  
-  - K-Nearest Neighbors (KNN)  
-  - Gradient Boosting  
-  - Multi-layer Perceptron (MLP Neural Network)  
+## 📂 Dataset Overview
+Each image in the dataset contains **three MNIST digits**, requiring the model to detect and classify multiple digits within a single image. The digits may be **overlapping** or partially **obscured**, increasing classification difficulty.
 
-## 📊 Model Performance
-| Model                         | Accuracy | Precision | Recall | F1-Score |
-|--------------------------------|----------|------------|--------|----------|
-| **MLPClassifier**              | 0.978    | 0.963      | 0.978  | 0.965    |
-| **Logistic Regression**        | 0.977    | 0.983      | 0.969  | 0.976    |
-| **GaussianNB**                 | 0.976    | 0.986      | 0.964  | 0.975    |
-| **RandomForestClassifier**     | 0.974    | 0.978      | 0.969  | 0.973    |
-| **GradientBoostingClassifier** | 0.974    | 0.983      | 0.964  | 0.973    |
-| **KNeighborsClassifier**       | 0.972    | 0.981      | 0.962  | 0.971    |
-| **SVC**                        | 0.969    | 0.994      | 0.942  | 0.968    |
-| **DecisionTreeClassifier**     | 0.959    | 0.952      | 0.967  | 0.959    |
+---
 
-## 📂 Dataset
-This project uses an **anonymized dataset** containing various country-based metrics. The dataset is preprocessed to handle missing values, encode categorical variables, and scale numerical data.
+## 🛠️ Project Workflow
 
-## 🛠️ Installation
-To run this project, install the required dependencies:
+### 1. **Data Loading & Preprocessing**
+- **Resize**: Images are resized to a uniform dimension (28x28).
+- **Grayscale Conversion**: Convert images to grayscale for consistency.
+- **Gaussian Blurring**: Applied to smooth images and reduce noise.
+- **Thresholding**: Convert the image into binary to simplify digit detection.
+- **Morphological Operations**: Erosion and dilation help separate overlapping digits.
+- **Region of Interest (ROI) Segmentation**: Extracts individual digits from the image.
+- **Normalization**: Pixel values are normalized for better model performance.
+
+### 2. **Model Development**
+- **CNN Architecture**: A convolutional neural network (CNN) is used, with the ability to adapt and experiment with different architectures to improve accuracy.
+- **Data Augmentation**: Used to introduce variations and enhance model generalization.
+
+### 3. **Evaluation & Hyperparameter Tuning**
+- **Cross-Validation**: n-fold cross-validation ensures robust model evaluation.
+- **Hyperparameter Tuning**: Grid search is used to optimize hyperparameters for the best performance.
+- **Early Stopping**: Prevents overfitting by monitoring performance on the validation set.
+
+### 4. **Performance Metrics**
+- **Accuracy**: Measures the overall performance.
+- **Precision, Recall, and F1-Score**: Additional metrics used to evaluate model performance, especially in multi-label scenarios.
+
+---
+
+## 📈 Model Performance Summary
+
+Two different model configurations were tested, as shown in the following data:
+
+| **Metric**              | **Model 0 (Epoch 11)**          | **Model 1 (Epoch 65)**          |
+|-------------------------|---------------------------------|---------------------------------|
+| **Train Loss**           | 0.000692                        | 0.03086                         |
+| **Train Accuracy**       | 99.98%                          | 99.08%                          |
+| **Train Precision**      | 99.98%                          | 99.18%                          |
+| **Train Recall**         | 99.98%                          | 99.02%                          |
+| **Validation Loss**      | 0.00049                         | 0.0153                          |
+| **Validation Accuracy**  | 99.99%                          | 99.49%                          |
+| **Validation Precision** | 99.99%                          | 99.54%                          |
+| **Validation Recall**    | 99.99%                          | 99.47%                          |
+| **Test Loss**            | 0.00027                         | 0.00111                         |
+| **Test Accuracy**        | 99.99%                          | 99.97%                          |
+| **Test Precision**       | 99.99%                          | 99.97%                          |
+| **Test Recall**          | 99.99%                          | 99.97%                          |
+| **Test F1 Score**        | 99.99%                          | 99.97%                          |
+
+---
+
+### Key Observations:
+- The model performed exceptionally well with **very high accuracy**, **precision**, **recall**, and **F1-score** across training, validation, and testing datasets.
+- **Model 0 (Epoch 11)** showed slightly better performance in terms of **train and validation accuracy**, **loss**, and **precision/recall**, compared to **Model 1 (Epoch 65)**.
+
+---
+
+## 🔧 Installation
+
+To set up the environment, install the required dependencies:
 
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn plotly kaleido graphviz pycountry openpyxl
+pip install h5py scikeras opencv-python keras tensorflow numpy pandas matplotlib seaborn scikit-learn
